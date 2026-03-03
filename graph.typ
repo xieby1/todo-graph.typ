@@ -8,14 +8,14 @@
   // Returns tuple: (updated visited set, num_todos, content)
   let dfs-helper(node, visited, indent:0) = {
     let num_todos = 0
-    let content = []
+    // Show visited leaf
+    let content = {h(1em*indent); graph.at(node).content; linebreak()}
     if visited.contains(node) {
       return (visited, num_todos, content)
     }
 
     visited += (node,)
     if graph.at(node).status == "todo" {num_todos += 1}
-    content += {h(1em*indent); graph.at(node).content; linebreak()}
 
     // Get neighbors, default to empty array if node not in graph
     let neighbors = graph.at(str(node)).subs
