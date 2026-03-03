@@ -24,7 +24,7 @@
 
     let sub-contents = ()
     // Visit all unvisited subs
-    for sub in graph.at(str(node)).subs {
+    for sub in graph.at(node).subs {
       let sub-num_todos = 0
       let sub-content = []
       (visited, sub-num_todos, sub-content) = dfs-helper(sub, visited)
