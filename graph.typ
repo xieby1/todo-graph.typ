@@ -17,16 +17,13 @@
     visited += (node,)
     if graph.at(node).status == "todo" {num_todos += 1}
 
-    // Get neighbors, default to empty array if node not in graph
-    let neighbors = graph.at(str(node)).subs
-
-    // Visit all unvisited neighbors
-    for neighbor in neighbors {
-      let new-num_todos = 0
-      let new-content = []
-      (visited, new-num_todos, new-content) = dfs-helper(neighbor, visited, indent:indent+1)
-      num_todos += new-num_todos
-      content += new-content
+    // Visit all unvisited subs
+    for sub in graph.at(str(node)).subs {
+      let sub-num_todos = 0
+      let sub-content = []
+      (visited, sub-num_todos, sub-content) = dfs-helper(sub, visited, indent:indent+1)
+      num_todos += sub-num_todos
+      content += sub-content
     }
 
     return (visited, num_todos, content)
