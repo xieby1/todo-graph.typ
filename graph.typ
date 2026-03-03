@@ -6,7 +6,7 @@
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, num_todos, content)
-  let dfs-helper(node, visited) = {
+  let dfs-helper(node, visited, indent:0) = {
     let num_todos = 0
     let content = []
     if visited.contains(node) {
@@ -15,7 +15,7 @@
 
     visited += (node,)
     if graph.at(node).status == "todo" {num_todos += 1}
-    content += graph.at(node).content
+    content += {h(1em*indent); graph.at(node).content; linebreak()}
 
     // Get neighbors, default to empty array if node not in graph
     let neighbors = graph.at(str(node)).subs
@@ -24,7 +24,7 @@
     for neighbor in neighbors {
       let new-num_todos = 0
       let new-content = []
-      (visited, new-num_todos, new-content) = dfs-helper(neighbor, visited)
+      (visited, new-num_todos, new-content) = dfs-helper(neighbor, visited, indent:indent+1)
       num_todos += new-num_todos
       content += new-content
     }
@@ -68,5 +68,5 @@
   )
   repr(dfs(graph, "n0")); linebreak()
   repr(dfs(graph, "n5")); linebreak()
-  repr(dfs-all(graph)); linebreak()
+  dfs-all(graph)
 }
