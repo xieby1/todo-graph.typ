@@ -2,36 +2,49 @@
 // Pure DFS implementation for graph traversal
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
-// Returns: array of node names in DFS order
+// Returns: (num_todos, content)
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
-  // Returns tuple: (updated visited set, traversal order)
-  let dfs-helper(node, visited, order) = {
+  // Returns tuple: (updated visited set, num_todos, content)
+  let dfs-helper(node, visited) = {
+    let num_todos = 0
+    let content = []
     if visited.contains(node) {
-      return (visited, order)
+      return (visited, num_todos, content)
     }
 
-    let new-visited = visited + (node,)
-    let new-order = order + (node,)
+    visited += (node,)
+    if graph.at(node).status == "todo" {num_todos += 1}
+    content += graph.at(node).content
 
     // Get neighbors, default to empty array if node not in graph
-    let neighbors = graph.at(str(node))
+    let neighbors = graph.at(str(node)).subs
 
     // Visit all unvisited neighbors
     for neighbor in neighbors {
-      (new-visited, new-order) = dfs-helper(neighbor, new-visited, new-order)
+      let new-num_todos = 0
+      let new-content = []
+      (visited, new-num_todos, new-content) = dfs-helper(neighbor, visited)
+      num_todos += new-num_todos
+      content += new-content
     }
 
-    return (new-visited, new-order)
+    return (visited, num_todos, content)
   }
 
   // Start DFS from the start node
-  let (visited, order) = dfs-helper(start, (), ())
-  return order
+  let (visited, num_todos, content) = dfs-helper(start, ())
+  return (num_todos, content)
 }
 
 #{
-  let graph = (n0:("n1",), n1:("n2","n3"), n2:("n4",), n3:("n4",), n4:())
+  let graph = (
+    n0:(content:"n0", status:"todo", subs:("n1",)),
+    n1:(content:"n1", status:"todo", subs:("n2","n3")),
+    n2:(content:"n2", status:"todo", subs:("n4",)),
+    n3:(content:"n3", status:"todo", subs:("n4",)),
+    n4:(content:"n4", status:"todo", subs:())
+  )
   dfs(graph, "n0")
 }
 
