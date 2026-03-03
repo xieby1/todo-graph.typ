@@ -37,6 +37,28 @@
   return (num_todos, content)
 }
 
+// DFS that visits all connected components
+// Returns array of all nodes in DFS order
+#let dfs-all(graph) = {
+  let visited = ()
+  let result = ()
+
+  for node in graph.keys() {
+    if not visited.contains(node) {
+      let component = dfs(graph, node)
+      for n in component {
+        if not visited.contains(n) {
+          visited = visited + (n,)
+          result = result + (n,)
+        }
+      }
+    }
+  }
+
+  return result
+}
+
+// TODO: separate as test
 #{
   let graph = (
     n0:(content:"n0", status:"todo", subs:("n1",)),
@@ -45,27 +67,6 @@
     n3:(content:"n3", status:"todo", subs:("n4",)),
     n4:(content:"n4", status:"todo", subs:())
   )
-  dfs(graph, "n0")
-}
-
-// DFS that visits all connected components
-// Returns array of all nodes in DFS order
-#let dfs-all(graph) = {
-  let all-nodes = graph.keys()
-  let visited = ()
-  let order = ()
-
-  for node in all-nodes {
-    if not visited.contains(node) {
-      let component = dfs(graph, node)
-      for n in component {
-        if not visited.contains(n) {
-          visited = visited + (n,)
-          order = order + (n,)
-        }
-      }
-    }
-  }
-
-  return order
+  repr(dfs(graph, "n0")); linebreak()
+  repr(dfs-all(graph)); linebreak()
 }
