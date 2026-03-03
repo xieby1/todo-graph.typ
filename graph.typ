@@ -2,7 +2,7 @@
 // Pure DFS implementation for graph traversal
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
-// Returns: (num_todos, content)
+// Returns: (visited, num_todos, content)
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, num_todos, content)
@@ -33,29 +33,25 @@
   }
 
   // Start DFS from the start node
-  let (visited, num_todos, content) = dfs-helper(start, ())
-  return (num_todos, content)
+  dfs-helper(start, ())
 }
 
 // DFS that visits all connected components
 // Returns array of all nodes in DFS order
 #let dfs-all(graph) = {
   let visited = ()
-  let result = ()
+  let num_todos = 0
+  let content = []
 
   for node in graph.keys() {
     if not visited.contains(node) {
-      let component = dfs(graph, node)
-      for n in component {
-        if not visited.contains(n) {
-          visited = visited + (n,)
-          result = result + (n,)
-        }
-      }
+      let (new-visited, new-num_todos, new-content) = dfs(graph, node)
+      for n in new-visited { if not visited.contains(n) {visited.push(n)} }
+      content += new-content
     }
   }
 
-  return result
+  return content
 }
 
 // TODO: separate as test
@@ -65,8 +61,12 @@
     n1:(content:"n1", status:"todo", subs:("n2","n3")),
     n2:(content:"n2", status:"todo", subs:("n4",)),
     n3:(content:"n3", status:"todo", subs:("n4",)),
-    n4:(content:"n4", status:"todo", subs:())
+    n4:(content:"n4", status:"todo", subs:()),
+    n5:(content:"n5", status:"todo", subs:("n6",)),
+    n6:(content:"n6", status:"done", subs:("n7",)),
+    n7:(content:"n7", status:"todo", subs:()),
   )
   repr(dfs(graph, "n0")); linebreak()
+  repr(dfs(graph, "n5")); linebreak()
   repr(dfs-all(graph)); linebreak()
 }
