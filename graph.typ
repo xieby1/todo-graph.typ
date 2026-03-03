@@ -3,17 +3,17 @@
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
 // Returns: (visited, num_todos, content)
+#let my-enum = enum.with(full:true)
+
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, num_todos, content)
-  let dfs-helper(node, visited, indent:0) = {
+  let dfs-helper(node, visited) = {
     // Show visited leaf
     let content = {
-      h(1em*indent)
       if graph.at(node).status == "done" { text(fill:gray,[✅#graph.at(node).content]) }
       else if graph.at(node).status == "abort" { text(fill:gray,[❌#graph.at(node).content]) }
       else { graph.at(node).content }
-      linebreak()
     }
     if visited.contains(node) {
       return (visited, 0, content)
@@ -22,16 +22,18 @@
     visited += (node,)
     let num_todos = if graph.at(node).status == "todo" {1} else {0}
 
+    let sub-contents = ()
     // Visit all unvisited subs
     for sub in graph.at(str(node)).subs {
       let sub-num_todos = 0
       let sub-content = []
-      (visited, sub-num_todos, sub-content) = dfs-helper(sub, visited, indent:indent+1)
+      (visited, sub-num_todos, sub-content) = dfs-helper(sub, visited)
       num_todos += sub-num_todos
-      content += sub-content
+      if sub-content!=none { sub-contents.push(sub-content) }
     }
+    if sub-contents.len() > 0 { content += my-enum(..sub-contents) }
 
-    if num_todos == 0 {content=[]}
+    if num_todos == 0 {content=none}
 
     return (visited, num_todos, content)
   }
@@ -45,17 +47,17 @@
 #let dfs-all(graph) = {
   let visited = ()
   let num_todos = 0
-  let content = []
+  let contents = ()
 
   for node in graph.keys() {
     if not visited.contains(node) {
       let (new-visited, new-num_todos, new-content) = dfs(graph, node)
       for n in new-visited { if not visited.contains(n) {visited.push(n)} }
-      content += new-content
+      contents.push(new-content)
     }
   }
 
-  return content
+  return my-enum(..contents)
 }
 
 // TODO: separate as test
@@ -74,4 +76,5 @@
   // repr(dfs(graph, "n0")); linebreak()
   // repr(dfs(graph, "n5")); linebreak()
   dfs-all(graph)
+  repr(dfs-all(graph))
 }
