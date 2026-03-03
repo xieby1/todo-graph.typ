@@ -7,15 +7,14 @@
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, num_todos, content)
   let dfs-helper(node, visited, indent:0) = {
-    let num_todos = 0
+    let num_todos = if graph.at(node).status == "todo" {1} else {0}
     // Show visited leaf
     let content = {h(1em*indent); graph.at(node).content; linebreak()}
     if visited.contains(node) {
-      return (visited, num_todos, content)
+      return (visited, 0, content)
     }
 
     visited += (node,)
-    if graph.at(node).status == "todo" {num_todos += 1}
 
     // Visit all unvisited subs
     for sub in graph.at(str(node)).subs {
@@ -25,6 +24,8 @@
       num_todos += sub-num_todos
       content += sub-content
     }
+
+    if num_todos == 0 {content=[]}
 
     return (visited, num_todos, content)
   }
@@ -61,9 +62,10 @@
     n4:(content:"n4", status:"todo", subs:()),
     n5:(content:"n5", status:"todo", subs:("n6",)),
     n6:(content:"n6", status:"done", subs:("n7",)),
-    n7:(content:"n7", status:"todo", subs:()),
+    n7:(content:"n7", status:"todo", subs:("n8",)),
+    n8:(content:"n8", status:"done", subs:()),
   )
-  repr(dfs(graph, "n0")); linebreak()
-  repr(dfs(graph, "n5")); linebreak()
+  // repr(dfs(graph, "n0")); linebreak()
+  // repr(dfs(graph, "n5")); linebreak()
   dfs-all(graph)
 }
