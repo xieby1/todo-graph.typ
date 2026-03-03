@@ -11,8 +11,8 @@
   let dfs-helper(node, visited) = {
     // Show visited leaf
     let content = {
-      if graph.at(node).status == "done" { text(fill:gray,[✅#graph.at(node).content]) }
-      else if graph.at(node).status == "abort" { text(fill:gray,[❌#graph.at(node).content]) }
+      if graph.at(node).status == "done" { text(fill:gray, graph.at(node).content) }
+      else if graph.at(node).status == "abort" { text(fill:gray, strike(graph.at(node).content)) }
       else { graph.at(node).content }
     }
     if visited.contains(node) {
@@ -58,23 +58,4 @@
   }
 
   return my-enum(..contents)
-}
-
-// TODO: separate as test
-#{
-  let graph = (
-    n0:(content:"n0", status:"todo", subs:("n1",)),
-    n1:(content:"n1", status:"todo", subs:("n2","n3")),
-    n2:(content:"n2", status:"todo", subs:("n4",)),
-    n3:(content:"n3", status:"todo", subs:("n4",)),
-    n4:(content:"n4", status:"todo", subs:()),
-    n5:(content:"n5", status:"todo", subs:("n6",)),
-    n6:(content:"n6", status:"done", subs:("n7",)),
-    n7:(content:"n7", status:"todo", subs:("n8",)),
-    n8:(content:"n8", status:"done", subs:()),
-  )
-  // repr(dfs(graph, "n0")); linebreak()
-  // repr(dfs(graph, "n5")); linebreak()
-  dfs-all(graph)
-  repr(dfs-all(graph))
 }
