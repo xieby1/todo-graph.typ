@@ -3,18 +3,24 @@
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
 // Returns: (visited, num_todos, content)
-#let my-heading = heading.with(numbering: "TODO 1.1.", supplement:"TODO")
+#let my-heading = heading.with()
 
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, num_todos, content)
   let dfs-helper(node, visited, level:1) = {
     // Show visited leaf
-    let content = my-heading(level:level, {
-      if graph.at(node).status == "done" { text(fill:gray, graph.at(node).content) }
-      else if graph.at(node).status == "abort" { text(fill:gray, strike(graph.at(node).content)) }
-      else { graph.at(node).content }
-    })
+    let status = graph.at(node).status
+    let content = my-heading(
+      level:level,
+      numbering: (..num) => upper(status) + " " + num.pos().map(str).join(".") + ".",
+      supplement:upper(status),
+      {
+        if status == "done" { text(fill:gray, graph.at(node).content) }
+        else if status == "abort" { text(fill:gray, strike(graph.at(node).content)) }
+        else { graph.at(node).content }
+      }
+    )
     if visited.contains(node) {
       return (visited, 0, content)
     }
