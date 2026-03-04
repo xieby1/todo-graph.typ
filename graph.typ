@@ -10,7 +10,10 @@
     // Show visited leaf
     let status_upper = upper(graph.at(node).status)
     let content = block({
-      status_upper + numbering(" 1.1: ", ..counter)
+      status_upper
+      [~]
+      numbering("1.1:", ..counter)
+      [~]
       graph.at(node).content
     })
 
