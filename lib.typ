@@ -15,15 +15,6 @@
   })
 }
 
-#let add-node(status, name, content, pres:(), subs:()) = {
-  add-raw-node(status, name, content)
-  for pre in pres { add-raw-edge(pre, name) }
-  for sub in subs { add-raw-edge(name, sub) }
-}
-#let TODO(..args)  = add-node("TODO",  ..args)
-#let DONE(..args)  = add-node("DONE",  ..args)
-#let ABORT(..args) = add-node("ABORT", ..args)
-
 #let add-edges(from, to) = {
   let froms = {
     if type(from) == array {from}
@@ -39,6 +30,15 @@
     add-raw-edge(f, t)
   }}
 }
+
+#let add-node(status, name, content, pres:(), subs:()) = {
+  add-raw-node(status, name, content)
+  add-edges(pres, name)
+  add-edges(name, subs)
+}
+#let TODO(..args)  = add-node("TODO",  ..args)
+#let DONE(..args)  = add-node("DONE",  ..args)
+#let ABORT(..args) = add-node("ABORT", ..args)
 
 #let list-todos() = {
   import "graph.typ": dfs-all

@@ -1,8 +1,8 @@
 #import "/lib.typ": TODO, DONE, ABORT, add-edges, list-todos
 #{
   TODO("n0", [n0])
-  TODO("n1", [n1], pres:("n0",), subs:("n4",))
-  TODO("n2", [n2], pres:("n0",), subs:("n4",))
+  TODO("n1", [n1], pres:("n0"), subs:"n4")
+  TODO("n2", [n2], pres:("n0",), subs:("n4"))
   TODO("n3", [n3], pres:("n0",))
   TODO("n4", [n4], pres:("n1", "n2", "n3"))
 
