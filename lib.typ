@@ -1,6 +1,6 @@
 #let todo-nodes = state("__todo-nodes", (:))
 #let todo-edges = state("__todo-edges", (:))
-#let add-raw-node(status/*todo, done, abort*/, name, content) = {
+#let add-raw-node(status/*todo, done, abort*/, content, name) = {
   todo-nodes.update(old => {
     assert(not old.keys().contains(name), message:"Duplicate name: " + name)
     old.insert(name, (content:content, subs:(), walked:false, status:status))
@@ -31,8 +31,8 @@
   }}
 }
 
-#let add-node(status, name, content, pres:(), subs:()) = {
-  add-raw-node(status, name, content)
+#let add-node(status, content, name, pres:(), subs:()) = {
+  add-raw-node(status, content, name)
   add-edges(pres, name)
   add-edges(name, subs)
 }

@@ -1,4 +1,4 @@
 #import "/lib.typ": add-raw-node, list-todos
-#add-raw-node("TODO", "n0", [dup0])
-#add-raw-node("TODO", "n0", [dup1])
+#add-raw-node("TODO", [dup0], "n0")
+#add-raw-node("TODO", [dup1], "n0")
 #list-todos()
