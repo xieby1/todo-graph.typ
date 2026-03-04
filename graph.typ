@@ -13,7 +13,7 @@
     let status_upper = upper(graph.at(node).status)
     let content = my-heading(
       level:level,
-      numbering: (..num) => status_upper + " " + num.pos().map(str).join(".") + ".",
+      numbering: (..num) => status_upper + " " + num.pos().map(str).join(".") + ":",
       supplement:status_upper,
       graph.at(node).content
     )
