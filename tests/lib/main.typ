@@ -22,5 +22,13 @@
   add-edges("o0", ("o1", "o2", "o3"))
   add-edges(("o1", "o2", "o3"), ("o4",))
 
+  add-todo("p0", [p0])
+  add-done("p1", [p1])
+  add-abort("p2", [p2])
+  add-todo("p3", [p3])
+  add-done("p4", [p4])
+  add-edges("p0", ("p1", "p2", "p3"))
+  add-edges(("p1", "p2", "p3"), ("p4",))
+
   list-todos()
 }
