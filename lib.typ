@@ -20,9 +20,9 @@
   for pre in pres { add-raw-edge(pre, name) }
   for sub in subs { add-raw-edge(name, sub) }
 }
-#let add-todo(..args)  = add-node("TODO",  ..args)
-#let add-done(..args)  = add-node("DONE",  ..args)
-#let add-abort(..args) = add-node("ABORT", ..args)
+#let TODO(..args)  = add-node("TODO",  ..args)
+#let DONE(..args)  = add-node("DONE",  ..args)
+#let ABORT(..args) = add-node("ABORT", ..args)
 
 #let add-edges(from, to) = {
   let froms = {
