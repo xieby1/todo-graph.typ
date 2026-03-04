@@ -22,16 +22,13 @@
     visited += (node,)
     let num_todos = if graph.at(node).status == "todo" {1} else {0}
 
-    let sub-contents = []
     // Visit all unvisited subs
     for sub in graph.at(node).subs {
-      let sub-num_todos = 0
-      let sub-content = []
-      (visited, sub-num_todos, sub-content) = dfs-helper(sub, visited, level:level+1)
+      let (sub-visited, sub-num_todos, sub-content) = dfs-helper(sub, visited, level:level+1)
+      visited = sub-visited
       num_todos += sub-num_todos
-      sub-contents += sub-content
+      content += sub-content
     }
-    content += sub-contents
 
     if num_todos == 0 {content=none}
 
@@ -47,15 +44,15 @@
 #let dfs-all(graph) = {
   let visited = ()
   let num_todos = 0
-  let contents = []
+  let content = []
 
   for node in graph.keys() {
     if not visited.contains(node) {
       let (new-visited, new-num_todos, new-content) = dfs(graph, node)
       for n in new-visited { if not visited.contains(n) {visited.push(n)} }
-      contents += new-content
+      content += new-content
     }
   }
 
-  return contents
+  return content
 }
