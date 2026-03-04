@@ -10,16 +10,16 @@
   // Returns tuple: (updated visited set, num_todos, content)
   let dfs-helper(node, visited, level:1) = {
     // Show visited leaf
-    let status = graph.at(node).status
+    let status_upper = upper(graph.at(node).status)
     let content = my-heading(
       level:level,
-      numbering: (..num) => upper(status) + " " + num.pos().map(str).join(".") + ".",
-      supplement:upper(status),
+      numbering: (..num) => status_upper + " " + num.pos().map(str).join(".") + ".",
+      supplement:status_upper,
       graph.at(node).content
     )
     content = {
-      if status == "done" { text(fill:gray, content) }
-      else if status == "abort" { text(fill:gray, strike(content)) }
+      if status_upper == "DONE" { text(fill:gray, content) }
+      else if status_upper == "ABORT" { text(fill:gray, strike(content)) }
       else { content }
     }
 
@@ -28,7 +28,7 @@
     }
 
     visited += (node,)
-    let num_todos = if graph.at(node).status == "todo" {1} else {0}
+    let num_todos = if status_upper == "TODO" {1} else {0}
 
     // Visit all unvisited subs
     for sub in graph.at(node).subs {
