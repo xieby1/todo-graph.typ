@@ -1,7 +1,7 @@
 #let todos = state("__todos", (:))
 #let add-raw-node(status/*todo, done, abort*/, name, content) = {
   todos.update(old => {
-    // TODO: check duplicate
+    assert(not old.keys().contains(name), message:"Duplicate name: " + name)
     old.insert(name, (content:content, subs:(), walked:false, status:status))
     old
   })
