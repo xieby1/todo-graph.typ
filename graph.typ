@@ -37,7 +37,7 @@
       let (sub-visited-numtodos, sub-content) = dfs-helper(sub, visited-numtodos, level:level+1)
       visited-numtodos = sub-visited-numtodos
       numtodos += visited-numtodos.at(sub)
-      content += sub-content
+      if visited-numtodos.at(sub) > 0 { content += sub-content }
     }
     // Update the numtodos
     visited-numtodos.insert(node, numtodos)
