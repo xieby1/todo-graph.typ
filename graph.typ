@@ -2,13 +2,13 @@
 // Pure DFS implementation for graph traversal
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
-// Returns: (visited, num_todos, content)
+// Returns: (visited, numtodos, content)
 #let my-heading = heading.with()
 
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
-  // Returns tuple: (updated visited set, num_todos, content)
-  let dfs-helper(node, visited, level:1) = {
+  // Returns tuple: (updated visited set, numtodos, content)
+  let dfs-helper(node, visited-numtodos, level:1) = {
     // Show visited leaf
     let status_upper = upper(graph.at(node).status)
     let content = my-heading(
@@ -23,41 +23,44 @@
       else { content }
     }
 
-    if visited.contains(node) {
-      return (visited, 0, content)
+    if visited-numtodos.keys().contains(node) {
+      return (visited-numtodos, content)
     }
 
-    visited += (node,)
-    let num_todos = if status_upper == "TODO" {1} else {0}
+    let numtodos = if status_upper == "TODO" {1} else {0}
+
+    // The sum of subs numtodos is updated after visiting all subs
+    visited-numtodos.insert(node, numtodos)
 
     // Visit all unvisited subs
     for sub in graph.at(node).subs {
-      let (sub-visited, sub-num_todos, sub-content) = dfs-helper(sub, visited, level:level+1)
-      visited = sub-visited
-      num_todos += sub-num_todos
+      let (sub-visited-numtodos, sub-content) = dfs-helper(sub, visited-numtodos, level:level+1)
+      visited-numtodos = sub-visited-numtodos
+      numtodos += visited-numtodos.at(sub)
       content += sub-content
     }
+    // Update the numtodos
+    visited-numtodos.insert(node, numtodos)
 
-    if num_todos == 0 {content=none}
+    if numtodos == 0 {content=none}
 
-    return (visited, num_todos, content)
+    return (visited-numtodos, content)
   }
 
   // Start DFS from the start node
-  dfs-helper(start, ())
+  dfs-helper(start, (:))
 }
 
 // DFS that visits all connected components
 // Returns array of all nodes in DFS order
 #let dfs-all(graph) = {
-  let visited = ()
-  let num_todos = 0
+  let visited-numtodos = (:)
   let content = []
 
   for node in graph.keys() {
-    if not visited.contains(node) {
-      let (new-visited, new-num_todos, new-content) = dfs(graph, node)
-      for n in new-visited { if not visited.contains(n) {visited.push(n)} }
+    if not visited-numtodos.keys().contains(node) {
+      let (new-visited-numtodos, new-content) = dfs(graph, node)
+      visited-numtodos += new-visited-numtodos
       content += new-content
     }
   }
