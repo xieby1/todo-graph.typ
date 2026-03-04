@@ -9,11 +9,10 @@
   let dfs-helper(node, visited-numtodos, counter) = {
     // Show visited leaf
     let status_upper = upper(graph.at(node).status)
-    let content = {
+    let content = block({
       status_upper + numbering(" 1.1: ", ..counter)
       graph.at(node).content
-      linebreak()
-    }
+    })
 
     if visited-numtodos.keys().contains(node) {
       return (visited-numtodos, content)
