@@ -1,4 +1,4 @@
-#import "/lib.typ": TODO, DONE, ABORT, add-edges, list-todos
+#import "/lib.typ": TODO, DONE, SKIP, add-edges, list-todos
 #{
   TODO([n0], "n0")
   TODO([n1], "n1", pres:("n0"), subs:"n4")
@@ -16,7 +16,7 @@
 
   TODO([o0], "o0")
   DONE([o1], "o1")
-  ABORT([o2], "o2")
+  SKIP([o2], "o2")
   TODO([o3], "o3")
   TODO([o4], "o4")
   add-edges("o0", ("o1", "o2", "o3"))
@@ -24,7 +24,7 @@
 
   TODO([p0], "p0")
   DONE([p1], "p1")
-  ABORT([p2], "p2")
+  SKIP([p2], "p2")
   TODO([p3], "p3")
   DONE([p4], "p4")
   add-edges("p0", ("p1", "p2", "p3"))

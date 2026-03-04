@@ -2,7 +2,7 @@
 #let graph = (
   n0:(content:"n0", status:"TODO", subs:("n1",)),
   n1:(content:"n1", status:"Todo", subs:("n2","n3")),
-  n2:(content:"n2", status:"aBort", subs:("n4",)),
+  n2:(content:"n2", status:"sKip", subs:("n4",)),
   n3:(content:"n3", status:"toDo", subs:("n4",)),
   n4:(content:"n4", status:"tODo", subs:()),
   n5:(content:"n5", status:"todo", subs:("n6",)),

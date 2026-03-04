@@ -9,6 +9,6 @@
   add-raw-node("DoNE", [n1], "n1")
   add-raw-node("DONE", [n2], "n2")
   add-raw-node("TODO", [n3], "n3")
-  add-raw-node("ABORt", [n4], "n4")
+  add-raw-node("SKIp", [n4], "n4")
   list-todos()
 }

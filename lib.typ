@@ -1,6 +1,6 @@
 #let todo-nodes = state("__todo-nodes", (:))
 #let todo-edges = state("__todo-edges", (:))
-#let add-raw-node(status/*todo, done, abort*/, content, name) = {
+#let add-raw-node(status/*todo, done, skip*/, content, name) = {
   todo-nodes.update(old => {
     assert(not old.keys().contains(name), message:"Duplicate name: " + name)
     old.insert(name, (content:content, subs:(), walked:false, status:status))
@@ -38,7 +38,7 @@
 }
 #let TODO(..args)  = add-node("TODO",  ..args)
 #let DONE(..args)  = add-node("DONE",  ..args)
-#let ABORT(..args) = add-node("ABORT", ..args)
+#let SKIP(..args) = add-node("SKIP", ..args)
 
 #let list-todos() = {
   import "graph.typ": dfs-all
