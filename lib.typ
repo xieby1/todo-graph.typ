@@ -14,6 +14,32 @@
     old
   })
 }
+
+#let add-node(status, name, content, pres:(), subs:()) = {
+  add-raw-node(status, name, content)
+  for pre in pres { add-raw-edge(pre, name) }
+  for sub in subs { add-raw-edge(name, sub) }
+}
+#let add-todo(..args)  = add-node("TODO",  ..args)
+#let add-done(..args)  = add-node("DONE",  ..args)
+#let add-abort(..args) = add-node("ABORT", ..args)
+
+#let add-edges(from, to) = {
+  let froms = {
+    if type(from) == array {from}
+    else if type(from) == str {(from,)}
+    else {assert(false, "from can only be str or array")}
+  }
+  let tos = {
+    if type(to) == array {to}
+    else if type(to) == str {(to,)}
+    else {assert(false, "to can only be str or array")}
+  }
+  for f in froms { for t in tos {
+    add-raw-edge(f, t)
+  }}
+}
+
 #let list-todos() = {
   import "graph.typ": dfs-all
   context {
