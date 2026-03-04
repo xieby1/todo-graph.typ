@@ -14,12 +14,6 @@
       graph.at(node).content
       linebreak()
     }
-    // TODO: No style here, use show in main doc
-    content = {
-      if status_upper == "DONE" { text(fill:gray, content) }
-      else if status_upper == "ABORT" { text(fill:gray, strike(content)) }
-      else { content }
-    }
 
     if visited-numtodos.keys().contains(node) {
       return (visited-numtodos, content)
