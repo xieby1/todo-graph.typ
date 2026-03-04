@@ -1,8 +1,8 @@
 #let todos = state("__todos", (:))
-#let todo-node(name, content) = {
+#let todo-node(status/*todo, done, abort*/, name, content) = {
   todos.update(old => {
     // TODO: check duplicate
-    old.insert(name, (content:content, subs:(), walked:false, status:"todo"/*todo, done, abort*/))
+    old.insert(name, (content:content, subs:(), walked:false, status:status))
     old
   })
 }
