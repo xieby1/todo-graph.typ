@@ -2,7 +2,7 @@ let npinsed = import ./npins; in {
   pkgs ? import npinsed.nixpkgs {},
   buildLocalTypstEnv ? pkgs.callPackage npinsed.local-typst-env {},
 }: buildLocalTypstEnv {
-  src = pkgs.lib.cleanSource ./.;
+  src = (import npinsed.gitignore-nix {lib=pkgs.lib;}).gitignoreSource ./.;
   nativeBuildInputs = [
     pkgs.npins
     # use check_regex_order.py from xieby1/nestoc
