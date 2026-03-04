@@ -3,7 +3,7 @@
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
 // Returns: (visited, numtodos, content)
-#let my-heading = heading.with()
+#let my-heading = heading.with(outlined:false)
 
 #let dfs(graph, start) = {
   // Helper function: DFS with visited tracking
