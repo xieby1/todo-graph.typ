@@ -65,5 +65,10 @@
     }
   }
 
-  return content
+  return {
+    // TODO: how to save previous heading counter?
+    counter(heading).update((0,))
+    content
+    counter(heading).update((0,))
+  }
 }
