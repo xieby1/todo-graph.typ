@@ -15,12 +15,14 @@
       level:level,
       numbering: (..num) => upper(status) + " " + num.pos().map(str).join(".") + ".",
       supplement:upper(status),
-      {
-        if status == "done" { text(fill:gray, graph.at(node).content) }
-        else if status == "abort" { text(fill:gray, strike(graph.at(node).content)) }
-        else { graph.at(node).content }
-      }
+      graph.at(node).content
     )
+    content = {
+      if status == "done" { text(fill:gray, content) }
+      else if status == "abort" { text(fill:gray, strike(content)) }
+      else { content }
+    }
+
     if visited.contains(node) {
       return (visited, 0, content)
     }
