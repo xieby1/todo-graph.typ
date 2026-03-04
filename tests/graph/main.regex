@@ -9,3 +9,13 @@ DONE 2.1. n6
 TODO 2.1.1. n7
 !2.1.1.1. n8
 !2.1.1.1..1 n9
+n0: \(numtodos: 5, counter: \(1,\)\),
+n1: \(numtodos: 4, counter: \(1, 1\)\),
+n2: \(numtodos: 1, counter: \(1, 1, 1\)\),
+n4: \(numtodos: 1, counter: \(1, 1, 1, 1\)\),
+n3: \(numtodos: 2, counter: \(1, 1, 2\)\),
+n5: \(numtodos: 2, counter: \(2,\)\),
+n6: \(numtodos: 1, counter: \(2, 1\)\),
+n7: \(numtodos: 1, counter: \(2, 1, 1\)\),
+n8: \(numtodos: 0, counter: \(2, 1, 1, 1\)\),
+n9: \(numtodos: 0, counter: \(2, 1, 1, 1, 1\)\),

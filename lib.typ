@@ -53,6 +53,7 @@
         if not to in graph.at(from).subs { graph.at(from).subs.push(to) }
       }
     }
-    dfs-all(graph)
+    let (content, visited-info) = dfs-all(graph)
+    content
   }
 }
