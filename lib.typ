@@ -9,12 +9,10 @@
   })
   box({
     upper(status)
-    [~]
     context {
       let visited-info = todo-visit.final()
-      numbering("1.1:", ..visited-info.at(name).counter)
+      numbering(" 1.1: ", ..visited-info.at(name).counter)
     }
-    [~]
     content
   })
 }
