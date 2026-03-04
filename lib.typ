@@ -3,8 +3,12 @@
 #let todo-visit = state("__todo-visit", (:))
 #let add-raw-node(status/*todo, done, skip*/, content, name) = {
   todo-nodes.update(old => {
-    assert(not old.keys().contains(name), message:"Duplicate name: " + name)
-    old.insert(name, (content:content, subs:(), walked:false, status:status))
+    if old.keys().contains(name) {
+      assert(old.at(name).status==status,  message:"Same node name ["+name+"] but different status")
+      assert(old.at(name).content==content,message:"Same node name ["+name+"] but different content")
+    } else {
+      old.insert(name, (content:content, subs:(), walked:false, status:status))
+    }
     old
   })
   box({
