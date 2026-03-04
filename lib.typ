@@ -1,10 +1,21 @@
 #let todo-nodes = state("__todo-nodes", (:))
 #let todo-edges = state("__todo-edges", (:))
+#let todo-visit = state("__todo-visit", (:))
 #let add-raw-node(status/*todo, done, skip*/, content, name) = {
   todo-nodes.update(old => {
     assert(not old.keys().contains(name), message:"Duplicate name: " + name)
     old.insert(name, (content:content, subs:(), walked:false, status:status))
     old
+  })
+  box({
+    upper(status)
+    [~]
+    context {
+      let visited-info = todo-visit.final()
+      numbering("1.1:", ..visited-info.at(name).counter)
+    }
+    [~]
+    content
   })
 }
 #let add-raw-edge(from, to) = {
@@ -54,6 +65,7 @@
       }
     }
     let (content, visited-info) = dfs-all(graph)
+    todo-visit.update(_ => visited-info)
     content
   }
 }
