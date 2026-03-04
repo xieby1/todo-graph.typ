@@ -2,7 +2,7 @@
 
 = Heading1.
 
-== Heading1.2.
+== Heading1.1.
 
 #import "/graph.typ": dfs-all
 #outline()
