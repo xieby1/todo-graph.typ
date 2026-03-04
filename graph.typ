@@ -3,20 +3,18 @@
 // graph: dict where keys are node names, values are arrays of neighbor names
 // start: starting node name
 // Returns: (visited, numtodos, content)
-#let my-heading = heading.with(outlined:false)
-
-#let dfs(graph, start) = {
+#let dfs(graph, start, counter) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, numtodos, content)
-  let dfs-helper(node, visited-numtodos, level:1) = {
+  let dfs-helper(node, visited-numtodos, counter) = {
     // Show visited leaf
     let status_upper = upper(graph.at(node).status)
-    let content = my-heading(
-      level:level,
-      numbering: (..num) => status_upper + " " + num.pos().map(str).join(".") + ":",
-      supplement:status_upper,
+    let content = {
+      status_upper + numbering(" 1.1: ", ..counter)
       graph.at(node).content
-    )
+      linebreak()
+    }
+    // TODO: No style here, use show in main doc
     content = {
       if status_upper == "DONE" { text(fill:gray, content) }
       else if status_upper == "ABORT" { text(fill:gray, strike(content)) }
@@ -33,11 +31,15 @@
     visited-numtodos.insert(node, numtodos)
 
     // Visit all unvisited subs
+    counter.push(1)
     for sub in graph.at(node).subs {
-      let (sub-visited-numtodos, sub-content) = dfs-helper(sub, visited-numtodos, level:level+1)
+      let (sub-visited-numtodos, sub-content) = dfs-helper(sub, visited-numtodos, counter)
       visited-numtodos = sub-visited-numtodos
       numtodos += visited-numtodos.at(sub)
-      if visited-numtodos.at(sub) > 0 { content += sub-content }
+      if visited-numtodos.at(sub) > 0 {
+        content += sub-content
+        counter.at(-1) += 1
+      }
     }
     // Update the numtodos
     visited-numtodos.insert(node, numtodos)
@@ -48,7 +50,7 @@
   }
 
   // Start DFS from the start node
-  dfs-helper(start, (:))
+  dfs-helper(start, (:), counter)
 }
 
 // DFS that visits all connected components
@@ -56,19 +58,16 @@
 #let dfs-all(graph) = {
   let visited-numtodos = (:)
   let content = []
+  let counter = (1,)
 
   for node in graph.keys() {
     if not visited-numtodos.keys().contains(node) {
-      let (new-visited-numtodos, new-content) = dfs(graph, node)
+      let (new-visited-numtodos, new-content) = dfs(graph, node, counter)
       visited-numtodos += new-visited-numtodos
       content += new-content
+      counter.at(0) += 1
     }
   }
 
-  return {
-    // TODO: how to save previous heading counter?
-    counter(heading).update((0,))
-    content
-    counter(heading).update((0,))
-  }
+  return content
 }
