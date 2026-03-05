@@ -1,9 +1,9 @@
 // By Copilot
 // Pure DFS implementation for graph traversal
 // graph: dict where keys are node names, values are arrays of neighbor names
-// start: starting node name
+// node: starting node name
 // Returns: (visited, numtodos, content)
-#let dfs(graph, start, counter) = {
+#let dfs(graph, node, counter) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, numtodos, content)
   let dfs-helper(node, visited-info, counter) = {
@@ -44,7 +44,7 @@
   }
 
   // Start DFS from the start node
-  dfs-helper(start, (:), counter)
+  dfs-helper(node, (:), counter)
 }
 
 // DFS that visits all connected components
