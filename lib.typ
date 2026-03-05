@@ -1,7 +1,7 @@
 #let todo-nodes = state("__todo-nodes", (:))
 #let todo-edges = state("__todo-edges", (:))
 #let todo-visit = state("__todo-visit", (:))
-#let add-raw-node(status/*todo, done, skip*/, content, name) = {
+#let add-raw-node(status/*todo, done, skip*/, content, name, fmt:auto) = {
   todo-nodes.update(old => {
     if old.keys().contains(name) {
       assert(old.at(name).status==status,  message:"Same node name ["+name+"] but different status")
@@ -12,14 +12,24 @@
     old
   })
   let status_upper = upper(status)
-  box({if status_upper == "TODO" {
+  let fmt = if fmt==auto {
+    if status_upper=="TODO" {"full"}
+    else if status_upper=="DONE" {"compact"}
+    else {"none"}
+  } else if fmt==none {
+    "none"
+  } else {
+    assert(fmt=="full" or fmt=="compact" or fmt=="none")
+    fmt
+  }
+  box({if fmt=="full" {
     status_upper
     context {
       let visited-info = todo-visit.final()
       numbering(" 1.1: ", ..visited-info.at(name).counter)
     }
     content
-  } else if status_upper == "DONE" {
+  } else if fmt=="compact" {
     content
   } else {/*SKIP, output nothing*/}})
 }
@@ -47,8 +57,8 @@
   }}
 }
 
-#let add-node(status, content, name, pres:(), subs:()) = {
-  add-raw-node(status, content, name)
+#let add-node(status, content, name, pres:(), subs:(), fmt:auto) = {
+  add-raw-node(status, content, name, fmt:fmt)
   add-edges(pres, name)
   add-edges(name, subs)
 }

@@ -1,0 +1,17 @@
+TODO 1: n0
+TODO 2: n1
+TODO 3: n2
+TODO 4: n3
+TODO 1: n0 ;
+TODO 2: n1 ;
+!TODO
+!TODO 4: n3
+!DONE
+DONE 6: o1 ;
+!DONE
+!DONE 8: o3
+!SKIP 9: p0
+SKIP 10: p1 ;
+!SKIP
+!SKIP 12: p3
+
