@@ -7,7 +7,7 @@
       assert(old.at(name).status==status,  message:"Same node name ["+name+"] but different status")
       assert(old.at(name).content==content,message:"Same node name ["+name+"] but different content")
     } else {
-      old.insert(name, (content:content, subs:(), walked:false, status:status))
+      old.insert(name, (content:content, pres:(), subs:(), walked:false, status:status))
     }
     old
   })
@@ -64,6 +64,7 @@
       for to in edges.at(from) {
         assert(graph.keys().contains(to), message:"edge to node [" + to + "] does not exist")
         if not to in graph.at(from).subs { graph.at(from).subs.push(to) }
+        if not from in graph.at(to).pres { graph.at(to).pres.push(from) }
       }
     }
     let (content, visited-info) = dfs-all(graph)

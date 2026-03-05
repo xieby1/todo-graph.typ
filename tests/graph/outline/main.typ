@@ -7,7 +7,7 @@
 #import "/graph.typ": dfs-all
 #outline()
 #dfs-all((
-  n0:(content:"n0", status:"TODO", subs:()),
+  n0:(content:"n0", status:"TODO", pres:(), subs:()),
 )).first()
 
 == Heading1.2.

@@ -54,7 +54,10 @@
   let content = []
   let counter = (1,)
 
-  for node in graph.keys() {
+  let root_nodes = graph.keys().filter(node => graph.at(node).pres.len()==0)
+
+  // Why `+ graph.keys()`? Because cylic graph does not have a root node
+  for node in root_nodes + graph.keys() {
     if not visited-info.keys().contains(node) {
       let (new-visited-info, new-content) = dfs(graph, node, visited-info, counter)
       visited-info = new-visited-info
