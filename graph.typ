@@ -3,7 +3,7 @@
 // graph: dict where keys are node names, values are arrays of neighbor names
 // node: starting node name
 // Returns: (visited, numtodos, content)
-#let dfs(graph, node, counter) = {
+#let dfs(graph, node, visited-info, counter) = {
   // Helper function: DFS with visited tracking
   // Returns tuple: (updated visited set, numtodos, content)
   let dfs-helper(node, visited-info, counter) = {
@@ -44,7 +44,7 @@
   }
 
   // Start DFS from the start node
-  dfs-helper(node, (:), counter)
+  dfs-helper(node, visited-info, counter)
 }
 
 // DFS that visits all connected components
@@ -56,8 +56,8 @@
 
   for node in graph.keys() {
     if not visited-info.keys().contains(node) {
-      let (new-visited-info, new-content) = dfs(graph, node, counter)
-      visited-info += new-visited-info
+      let (new-visited-info, new-content) = dfs(graph, node, visited-info, counter)
+      visited-info = new-visited-info
       content += new-content
       counter.at(0) += 1
     }
