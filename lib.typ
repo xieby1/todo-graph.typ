@@ -11,14 +11,17 @@
     }
     old
   })
-  box({
-    upper(status)
+  let status_upper = upper(status)
+  box({if status_upper == "TODO" {
+    status_upper
     context {
       let visited-info = todo-visit.final()
       numbering(" 1.1: ", ..visited-info.at(name).counter)
     }
     content
-  })
+  } else if status_upper == "DONE" {
+    content
+  } else {/*SKIP, output nothing*/}})
 }
 #let add-raw-edge(from, to) = {
   todo-edges.update(old => {
